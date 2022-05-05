@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {View,Text,StyleSheet,FlatList,Button, TouchableOpacity} from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons , MaterialIcons} from '@expo/vector-icons'; 
 import {Context} from '../context/BlogContext';
 
 const IndexScreen = ({ navigation }) => {
@@ -19,12 +19,16 @@ const IndexScreen = ({ navigation }) => {
                 keyExtractor = {blogpost => blogpost.id}
                 renderItem={ ({item})=>{
                     return(
-                    <TouchableOpacity onPress={()=>navigation.navigate('Show', {id:item.id})}>
+                    <TouchableOpacity 
+                        onPress={()=>navigation.navigate('Show', {id:item.id})}
+                    >
                         <View style={styles.row}>
                             <Text style= {styles.title}>
                                 {item.title} - {item.id}
                             </Text>
-                            <TouchableOpacity onPress={()=>{deleteBlogPost(item.id)}}>
+                            <TouchableOpacity 
+                                onPress={()=>{deleteBlogPost(item.id)}}
+                            >
                                 <MaterialCommunityIcons style={styles.icon} name="delete" color="black" />
                             </TouchableOpacity>  
                         </View>
@@ -34,6 +38,16 @@ const IndexScreen = ({ navigation }) => {
             />
         </>
     );
+}
+
+IndexScreen.navigationOptions = ({navigation})=>{
+    return{
+        headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+                <MaterialIcons style={styles.addIcon} name="add-box" color="green" />
+            </TouchableOpacity>
+        ),
+    }
 }
 
 const styles = StyleSheet.create({
@@ -49,7 +63,19 @@ const styles = StyleSheet.create({
     },
     icon:{
         fontSize:30,
-    }
+    },
+    addIcon:{
+        fontSize:34,
+        marginHorizontal:10,
+    },
 });
 
 export default IndexScreen;
+
+// // return {
+// //     headerRight: () => (
+// //       <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+// //         <Feather name="plus" size={30} />
+// //       </TouchableOpacity>
+// //     ),
+// //   };
