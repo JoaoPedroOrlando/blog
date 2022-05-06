@@ -4,16 +4,10 @@ import { MaterialCommunityIcons , MaterialIcons} from '@expo/vector-icons';
 import {Context} from '../context/BlogContext';
 
 const IndexScreen = ({ navigation }) => {
-    const {state, addBlogPost, deleteBlogPost} = useContext(Context);
+    const {state, deleteBlogPost} = useContext(Context);
 
     return (
         <>
-            <Button
-                title="Add post"
-                onPress={()=>{
-                    addBlogPost()
-                }}
-            />
             <FlatList
                 data ={state}
                 keyExtractor = {blogpost => blogpost.id}
