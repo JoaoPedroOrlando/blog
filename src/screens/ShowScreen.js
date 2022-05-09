@@ -1,7 +1,7 @@
-import React, {useContext, useEffect} from 'react';
-import {View,Text,StyleSheet} from 'react-native';
+import React, {useContext} from 'react';
+import {View,Text,StyleSheet, TouchableOpacity} from 'react-native';
 import {Context} from '../context/BlogContext';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 const ShowScreen = ({navigation})=>{
 
@@ -17,8 +17,18 @@ const ShowScreen = ({navigation})=>{
             </View>
         </View>
     );
-
 }
+
+ShowScreen.navigationOptions = ({navigation})=>{
+    return{
+        headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Edit', {id: navigation.getParam('id')})}>
+                <MaterialCommunityIcons name="square-edit-outline" style={styles.icon} />
+            </TouchableOpacity>
+          ),
+    } 
+}
+
 
 const styles = StyleSheet.create({
     card:{
@@ -36,6 +46,11 @@ const styles = StyleSheet.create({
     content:{
         fontSize:16,
         color:'gray',
+    },
+    icon:{
+        fontSize:35,
+        margin:5,
+        color:'black',
     }
 });
 
