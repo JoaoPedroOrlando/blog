@@ -13,6 +13,10 @@ const reducer = (state,action) => {
         case 'delete_blogpost':
             //The filter() method creates a new array filled with elements that pass a test provided by a function.
             return state.filter((blogPost)=> blogPost.id !== action.payload);
+        case 'edit_blogpost':
+            return state.map((blogPost) => {
+                return blogPost.id === action.payload.id ? action.payload : blogPost;
+            })
         default:
             return state;
     }
@@ -25,8 +29,10 @@ const addBlogPost = (dispatch)=>{
         payload:{
             title: title,
             content:content,
-        }});
-        callback();
+        }})
+        if(callback){
+            callback();
+        };
     };
 }
 
@@ -36,6 +42,18 @@ const deleteBlogPost = (dispatch)=>{
     };
 }
 
+const editBlogPost = (dispatch) =>{
+    return (id,title,content,callback)=>{
+        dispatch({type:'edit_blogpost',payload:{
+            id:id,
+            title: title,
+            content:content,
+        }});
+        if(callback){
+            callback();
+        }
+    }
+}
 
-export const {Context,Provider} = createDataContext(reducer,{addBlogPost,deleteBlogPost},
+export const {Context,Provider} = createDataContext(reducer,{addBlogPost, deleteBlogPost, editBlogPost},
     [{ title:'BLOG POST#1', content: 'TEST CONTENT', id: 1 }]);
