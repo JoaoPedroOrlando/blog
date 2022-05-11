@@ -1,8 +1,10 @@
-import React, {useReducer} from 'react';
 import createDataContext from './createDataContext';
+import jsonServer from '../api/jsonServer';
 
 const reducer = (state,action) => {
     switch(action.type){
+        case 'get_blogpost':
+            return action.payload;
         case 'add_blogpost':
             return [...state, 
                 {
@@ -22,8 +24,16 @@ const reducer = (state,action) => {
     }
 }
 
+getBlogPosts = dispatch =>{
+    return async () =>{
+        const response = await jsonServer.get('/blogposts');  
+        // response.data === [{},{},{}] 
+        dispatch({type:'get_blogpost',payload:response.data});
+    };
+};
 
-const addBlogPost = (dispatch)=>{
+
+const addBlogPosts = (dispatch)=>{
     return (title,content,callback)=>{
         dispatch({type:'add_blogpost', 
         payload:{
@@ -34,13 +44,13 @@ const addBlogPost = (dispatch)=>{
             callback();
         };
     };
-}
+};
 
 const deleteBlogPost = (dispatch)=>{
     return (id)=>{
         dispatch({type:'delete_blogpost', payload:id});
     };
-}
+};
 
 const editBlogPost = (dispatch) =>{
     return (id,title,content,callback)=>{
@@ -55,5 +65,4 @@ const editBlogPost = (dispatch) =>{
     }
 }
 
-export const {Context,Provider} = createDataContext(reducer,{addBlogPost, deleteBlogPost, editBlogPost},
-    [{ title:'BLOG POST#1', content: 'TEST CONTENT', id: 1 }]);
+export const {Context,Provider} = createDataContext(reducer,{addBlogPosts, deleteBlogPost, editBlogPost,getBlogPosts,},[]);
