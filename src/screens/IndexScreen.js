@@ -8,6 +8,7 @@ const IndexScreen = ({ navigation }) => {
 
     useEffect(()=>{
         getBlogPosts();
+        
     },[]);
 
     return (
@@ -69,11 +70,3 @@ const styles = StyleSheet.create({
 });
 
 export default IndexScreen;
-
-// // return {
-// //     headerRight: () => (
-// //       <TouchableOpacity onPress={() => navigation.navigate('Create')}>
-// //         <Feather name="plus" size={30} />
-// //       </TouchableOpacity>
-// //     ),
-// //   };
